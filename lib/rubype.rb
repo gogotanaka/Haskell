@@ -1,5 +1,3 @@
-require "rubype/rubype"
-
 # Builtin Contracts
 class  Any;     end
 module Boolean; end
