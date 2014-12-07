@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'rubype/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "rubype"
+  spec.name          = "haskell"
   spec.version       = Rubype::VERSION
   spec.authors       = ["gogotanaka"]
   spec.email         = ["mail@tanakakazuki.com"]
