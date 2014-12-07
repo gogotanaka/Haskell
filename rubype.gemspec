@@ -1,14 +1,14 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'rubype/version'
+require 'haskell/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "haskell"
-  spec.version       = Rubype::VERSION
+  spec.version       = Haskell::VERSION
   spec.authors       = ["gogotanaka"]
   spec.email         = ["mail@tanakakazuki.com"]
-  spec.extensions    = ["ext/rubype/extconf.rb"]
+  spec.extensions    = ["ext/haskell/extconf.rb"]
   spec.summary       = %q{Ruby with type.}
   spec.description   = %q{Ruby with type.}
   spec.homepage      = "http://gogotanaka.me/"
