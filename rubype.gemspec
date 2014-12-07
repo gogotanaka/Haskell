@@ -8,7 +8,6 @@ Gem::Specification.new do |spec|
   spec.version       = Haskell::VERSION
   spec.authors       = ["gogotanaka"]
   spec.email         = ["mail@tanakakazuki.com"]
-  spec.extensions    = ["ext/haskell/extconf.rb"]
   spec.summary       = %q{Ruby with type.}
   spec.description   = %q{Ruby with type.}
   spec.homepage      = "http://gogotanaka.me/"
