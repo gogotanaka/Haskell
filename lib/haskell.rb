@@ -10,7 +10,8 @@ class Module
     prepend (@__haskell__ = Module.new) unless @__haskell__
     @__haskell__
   end
-
+  
+  # @param [Hash] {method_name: [ArgClass1, ArgClass2, ... ArgClassn => RtnClass]}
   def typesig(hash)
     meth = hash.keys.first
     *arg_types, type_pair = hash.values.first
