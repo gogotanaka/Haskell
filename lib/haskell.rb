@@ -1,49 +1,36 @@
-require 'haskell/type_pair'
-
-# Builtin Contracts
-class  Any;     end
-module Boolean; end
-TrueClass.send(:include, Boolean)
-FalseClass.send(:include, Boolean)
-
-class Module
-  private
-  def __haskell__
-    prepend (@__haskell__ = Module.new) unless @__haskell__
-    @__haskell__
-  end
-
-  def type(*arguments)
-    *arg_types, type_pair, meth = arguments
-
-    __haskell__.send(:define_method, meth) do |*args, &block|
-      ::Haskell.assert_arg_type(meth, args, arg_types << type_pair.last_arg_type)
-      rtn = super(*args, &block)
-      ::Haskell.assert_trn_type(meth, rtn, type_pair.rtn_type)
-      rtn
+require 'pry'
+module Haskell
+  class << self
+    def init_sandbox!
+      file_path = File.expand_path('../', __FILE__)
+      $sandbox_path = "#{file_path}/haskell_executing_sandbox"
+      FileUtils.mkdir($sandbox_path) unless Dir.exist?($sandbox_path)
+      $tmp_hs_file_path = "#{$sandbox_path}/tmp.hs"
     end
-    self
+
+    def execute(hs_code)
+      File.write($tmp_hs_file_path, executable_code(hs_code))
+      Kernel.system("ghc #{$tmp_hs_file_path}")
+      `#{$sandbox_path}/tmp`.gsub(/\n\z/, '')
+    end
+
+    def executable_code(hs_code)
+<<-HASKELL_CODE
+module Main where
+#{hs_code.gsub(/\n */, "\n")}
+main = do putStrLn $ show result
+HASKELL_CODE
+    end
   end
 end
 
-module Haskell
-  class << self
-    def assert_arg_type(meth, args, klasses)
-      args.each_with_index do |arg, i|
-        if wrong_type?(arg, klasses[i])
-          raise ArgumentError, "Wrong type of argument, type of #{arg.inspect} should be #{klasses[i]}"
-        end
-      end
-    end
-
-    def assert_trn_type(meth, rtn, klass)
-      if wrong_type?(rtn, klass)
-        raise TypeError, "Expected #{meth} to return #{klass} but got #{rtn.inspect} instead"
-      end
-    end
-
-    def wrong_type?(obj, klass)
-      !(obj.is_a?(klass) || klass == Any)
-    end
+module Kernel
+  def haskell
+    Haskell.init_sandbox!
+    Haskell.execute(yield)
+  rescue
+    raise "Something wrong... https://github.com/gogotanaka/Haskell/issues"
+  ensure
+    FileUtils.rm_rf($sandbox_path)
   end
 end

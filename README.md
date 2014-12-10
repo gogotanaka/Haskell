@@ -1,57 +1,21 @@
-# Ruby with Type.
-
-Matz has mentioned Ruby3.0 with static type at some confluences. But almost all rubyists(include me) are not sure how typed Ruby is.
-
-But it's worth thinking more. This gem is kind of trial without so much side-effect.
+# Haskell On Ruby
 
 ```rb
 require 'haskell'
 
 # ex1
-class MyClass
-  def sum(x, y)
-    x + y
-  end
-  type Numeric, Numeric >= Numeric, :sum
+puts "It's totally Ruby"
+hs_result = haskell {"
 
-  def wrong_sum(x, y)
-    'string'
-  end
-  type Numeric, Numeric >= Numeric, :sum
-end
+"}
+puts "You've got #{hs_result} from haskell"
 
-MyClass.new.sum(1, 2)
-#=> 3
-
-MyClass.new.sum(1, 'string')
-#=> ArgumentError: Wrong type of argument, type of "str" should be Numeric
-
-MyClass.new.wrong_sum(1, 2)
-#=> TypeError: Expected wrong_sum to return Numeric but got "str" instead
 
 # ex2: (Ruby 2.1.0+)
-class MyClass
-  type Numeric, Numeric >= Numeric, def sum(x, y)
-    x + y
-  end
 
-  type Numeric, Numeric >= Numeric, def wrong_sum(x, y)
-    'string'
-  end
-end
 
 # ex3: (Ruby 2.1.0+)
-class People
-  type People >= Any, def marry(people)
-    # Your Ruby code as usual
-  end
-end
 
-People.new.marry(People.new)
-#=> no error
-
-People.new.marry('non people')
-#=> ArgumentError: Wrong type of argument, type of "non people" should be People
 ```
 
 ## Feature
