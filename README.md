@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Haskell On Ruby
 
 ```rb
@@ -78,3 +79,8 @@ Create a new Pull Request
 
 ## Credits
 [@chancancode](https://github.com/chancancode) first brought this to my attention. I've stolen some idea from him.
+=======
+# Please see the new repository.
+
+# https://github.com/gogotanaka/Rubype
+>>>>>>> e97f0f35ab7f4f36d51b6c314e988136e32de375
